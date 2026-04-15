@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<title>Formularz rejestracji</title>
+<style>
+    body {
+        font-family: Arial;
+        margin: 40px;
+    }
+    label {
+        display: block;
+        margin-top: 10px;
+    }
+    input, select {
+        padding: 5px;
+        margin-top: 5px;
+        width: 250px;
+    }
+    .inline {
+        width: auto;
+    }
+    button {
+        margin-top: 15px;
+        padding: 8px 12px;
+    }
+    #wynik {
+        margin-top: 20px;
+        font-weight: bold;
+    }
+    .blad {
+        color: red;
+    }
+    .ok {
+        color: green;
+    }
+</style>
+</head>
+<body>
+
+<h2>Formularz rejestracji</h2>
+
+<form id="formularz">
+    
+    <label>Nazwa użytkownika:
+        <input type="text" id="login">
+    </label>
+
+    <label>Adres e-mail:
+        <input type="text" id="email">
+    </label>
+
+    <label>Hasło:
+        <input type="password" id="haslo1">
+    </label>
+
+    <label>Powtórz hasło:
+        <input type="password" id="haslo2">
+    </label>
+
+    <label>Data urodzenia:
+        <input type="date" id="data">
+    </label>
+
+    <label>Płeć:
+        <select id="plec">
+            <option value="">-- wybierz --</option>
+            <option>Mężczyzna</option>
+            <option>Kobieta</option>
+            <option>Nie chcę podawać</option>
+        </select>
+    </label>
+
+    <label>
+        <input type="checkbox" id="regulamin" class="inline">
+        Akceptuję regulamin
+    </label>
+
+    <label>Wybierz wersję:
+        <br>
+        <input type="radio" name="wersja" value="Wersja darmowa" class="inline"> Wersja darmowa
+        <br>
+        <input type="radio" name="wersja" value="Wersja standardowa" class="inline"> Wersja standardowa
+        <br>
+        <input type="radio" name="wersja" value="Wersja premium" class="inline"> Wersja premium
+    </label>
+
+    <button type="button" onclick="waliduj()">Zarejestruj się</button>
+    <button type="reset">Wyczyść</button>
+
+</form>
+
+<div id="wynik"></div>
+
+<script>
+function waliduj() {
+    const wynik = document.getElementById("wynik");
+    wynik.innerHTML = "";
+    wynik.className = "";
+
+    try {
+        let login = document.getElementById("login").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let haslo1 = document.getElementById("haslo1").value;
+        let haslo2 = document.getElementById("haslo2").value;
+        let data = document.getElementById("data").value;
+        let plec = document.getElementById("plec").value;
+        let regulamin = document.getElementById("regulamin").checked;
+
+        let wersja = document.querySelector('input[name="wersja"]:checked');
+
+        // Sprawdzenie pustych pól
+        if (!login || !email || !haslo1 || !haslo2 || !data || !plec || !wersja) {
+            throw new Error("Wszystkie pola muszą być wypełnione!");
+        }
+
+        if (!regulamin) {
+            throw new Error("Musisz zaakceptować regulamin!");
+        }
+
+        // Login – tylko znaki alfanumeryczne
+        if (!/^[a-zA-Z0-9]+$/.test(login)) {
+            throw new Error("Nazwa użytkownika może zawierać tylko litery i cyfry!");
+        }
+
+        // Hasło
+        if (haslo1.length < 8) {
+            throw new Error("Hasło musi mieć co najmniej 8 znaków!");
+        }
+
+        if (!/\d/.test(haslo1)) {
+            throw new Error("Hasło musi zawierać co najmniej jedną cyfrę!");
+        }
+
+        if (haslo1 !== haslo2) {
+            throw new Error("Hasła nie są takie same!");
+        }
+
+        // Email
+        if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+            throw new Error("Niepoprawny adres e-mail!");
+        }
+
+        // Pełnoletność
+        let dzis = new Date();
+        let dataUrodzenia = new Date(data);
+
+        let wiek = dzis.getFullYear() - dataUrodzenia.getFullYear();
+        let m = dzis.getMonth() - dataUrodzenia.getMonth();
+
+        if (m < 0 || (m === 0 && dzis.getDate() < dataUrodzenia.getDate())) {
+            wiek--;
+        }
+
+        if (wiek < 18) {
+            throw new Error("Musisz mieć co najmniej 18 lat!");
+        }
+
+        // Format daty DD.MM.YYYY
+        let d = dataUrodzenia.getDate().toString().padStart(2, '0');
+        let mth = (dataUrodzenia.getMonth() + 1).toString().padStart(2, '0');
+        let y = dataUrodzenia.getFullYear();
+        let dataFormat = `${d}.${mth}.${y}`;
+
+        // Maskowanie hasła
+        let maska = "*".repeat(haslo1.length);
+
+        // Wynik
+        wynik.className = "ok";
+        wynik.innerHTML = `
+            Nazwa użytkownika: ${login}<br>
+            Hasło: ${maska}<br>
+            Adres e-mail: ${email}<br>
+            Data urodzenia: ${dataFormat}<br>
+            Płeć: ${plec}<br>
+            Wybrana wersja: ${wersja.value}
+        `;
+
+    } catch (e) {
+        wynik.className = "blad";
+        wynik.innerText = e.message;
+    }
+}
+</script>
+
+</body>
+</html>
