@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ćwiczenie 8</title>
+</head>
+<body>
+    <form id="userForm">
+        <input type="text" id="imie" placeholder="Imię" required>
+        <input type="text" id="nazwisko" placeholder="Nazwisko" required>
+        <input type="number" id="wiek" placeholder="Wiek" required>
+        <button type="submit">Wyślij</button>
+    </form>
+<script>
+    decument.getElementByid('userForm').adEventListener('submit', function(e) {e.preventDefault();
+        const imie = document.getElementByid('imie').value;
+        const nazwisko = document.getElementByid('nazwisko').value;
+        const wiek = document.getElementByid('wiek').value;
+        const userObj = {imie: imie, nazwisko: nazwisko, wiek: wiek};
+        consoloe.log("1b. Osobno:",userObj.imie,userObj.nazwisko,userObj.wiek);
+        const UserJSON = JSON.stringify(userObj);
+        consolo.log("1c. Format JSON:", UserJSON);
+    })
+</script>
+</body>
+</html>
