@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <title>Zadanie 3 - Aktualna godzina</title>
+</head>
+<body>
+    <h1>Aktualna godzina w Polsce (Timeapi.io):</h1>
+    <h2 id="wynik">Pobieranie danych...</h2>
+
+    <script>
+        const url = "https://timeapi.io/api/Time/current/zone?timeZone=Europe/Warsaw";
+        
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Błąd podczas pobierania danych");
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Timeapi zwraca m.in. pole 'time' i 'date'
+                const displayArea = document.getElementById("wynik");
+                displayArea.innerText = data.time + " (" + data.date + ")";
+            })
+            .catch(error => {
+                document.getElementById("wynik").innerText = "Nie udało się pobrać danych.";
+                console.error("Wystąpił błąd:", error);
+            });
+    </script>
+</body>
+</html>
