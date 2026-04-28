@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <style>
+        /* Nadpisane style, aby startowo widoczne były tylko Start i Zapisz */
+        #reset {display:none;}
+        #stop {display:none;}
+        #start {display:inline-block;}
+        #zapisz {display:inline-block;}
+    </style>
+</head>
+<body>
+    <h1 id="czas">
+        <span id="godziny">00</span>:<span id="minuty">00</span>:<span id="sekundy">00</span>
+    </h1>
+    <button id="start">START</button>
+    <button id="zapisz">ZAPISZ</button>
+    <button id="stop">STOP</button>
+    <button id="reset">RESET</button>
+    
+    <p id="stan_stopera"></p>
+    <ul id="zapisane_czasy"></ul>
+
+    <script>
+        let timer = null;
+        let totalSeconds = 0;
+        let counter = 1;
+
+        // Referencje do elementów DOM
+        const elGodziny = document.getElementById("godziny");
+        const elMinuty = document.getElementById("minuty");
+        const elSekundy = document.getElementById("sekundy");
+        
+        const btnStart = document.getElementById("start");
+        const btnStop = document.getElementById("stop");
+        const btnZapisz = document.getElementById("zapisz");
+        const btnReset = document.getElementById("reset");
+        
+        const stanTekst = document.getElementById("stan_stopera");
+        const listaCzasow = document.getElementById("zapisane_czasy");
+
+        function formatTime(val) {
+            return String(val).padStart(2, "0");
+        }
+
+        function updateDisplay() {
+            const h = Math.floor(totalSeconds / 3600);
+            const m = Math.floor((totalSeconds % 3600) / 60);
+            const s = totalSeconds % 60;
+
+            elGodziny.innerText = formatTime(h);
+            elMinuty.innerText = formatTime(m);
+            elSekundy.innerText = formatTime(s);
+        }
+
+        btnStart.addEventListener("click", () => {
+            stanTekst.innerText = "Odliczanie...";
+            btnStart.style.display = "none";
+            btnReset.style.display = "none";
+            btnStop.style.display = "inline-block";
+
+            timer = setInterval(() => {
+                totalSeconds++;
+                updateDisplay();
+            }, 1000);
+        });
+
+        btnStop.addEventListener("click", () => {
+            clearInterval(timer);
+            stanTekst.innerText = "Wstrzymano";
+            btnStop.style.display = "none";
+            btnStart.style.display = "inline-block";
+            btnReset.style.display = "inline-block";
+        });
+
+        btnZapisz.addEventListener("click", () => {
+            const currentString = `${elGodziny.innerText}:${elMinuty.innerText}:${elSekundy.innerText}`;
+            const li = document.createElement("li");
+            li.innerText = `${counter}. ${currentString}`;
+            listaCzasow.appendChild(li);
+            counter++;
+        });
+
+        btnReset.addEventListener("click", () => {
+            totalSeconds = 0;
+            counter = 1;
+            updateDisplay();
+            listaCzasow.innerHTML = "";
+            stanTekst.innerText = "";
+            
+            btnReset.style.display = "none";
+            btnStop.style.display = "none";
+            btnStart.style.display = "inline-block";
+        });
+    </script>
+</body>
+</html>
