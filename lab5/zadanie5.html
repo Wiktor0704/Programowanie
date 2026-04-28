@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 5</title>
+</head>
+<body>
+    <h1>Zadanie 5</h1>
+    <p>Otwórz konsolę (F12), aby zobaczyć wynik.</p>
+    
+    <script>
+        function przyblizeniePi(n) {
+            let suma = 0;
+            let znak = 1;
+            let mianownik = 1;
+            
+            for (let i = 0; i < n; i++) {
+                suma += znak * (1 / mianownik);
+                znak *= -1; 
+                mianownik += 2; 
+            }
+            
+            let y = 4 * suma;
+            console.log("Przybliżenie liczby Pi dla n=" + n + " wynosi: " + y);
+        }
+
+        // Wywołanie funkcji
+        przyblizeniePi(10000); 
+    </script>
+</body>
+</html>

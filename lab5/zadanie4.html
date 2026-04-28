@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 4</title>
+</head>
+<body>
+    <h1>Zadanie 4</h1>
+    <p>Otwórz konsolę (F12), aby zobaczyć wynik.</p>
+    
+    <script>
+        function obliczSilnie(n) {
+            if (n === 0 || n === 1) {
+                return 1;
+            }
+            return n * obliczSilnie(n - 1);
+        }
+
+        function zadanie4(n) {
+            console.log("Silnia z " + n + " wynosi: " + obliczSilnie(n));
+        }
+
+        // Wywołanie funkcji
+        zadanie4(5);
+    </script>
+</body>
+</html>

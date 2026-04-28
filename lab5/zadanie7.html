@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 7</title>
+</head>
+<body>
+    <h1>Zadanie 7</h1>
+    <p>Otwórz konsolę (F12), aby zobaczyć wynik.</p>
+    
+    <script>
+        function decToHex(liczba) {
+            if (liczba === 0) {
+                console.log("0");
+                return;
+            }
+
+            let znakiHex = "0123456789ABCDEF";
+            let wynik = "";
+            let l = Math.abs(liczba);
+
+            while (l > 0) {
+                let reszta = l % 16;
+                wynik = znakiHex[reszta] + wynik;
+                l = Math.floor(l / 16);
+            }
+
+            if (liczba < 0) {
+                wynik = "-" + wynik;
+            }
+            
+            console.log("Wartość Hex: " + wynik);
+        }
+
+        // Wywołanie funkcji
+        decToHex(255);
+    </script>
+</body>
+</html>
