@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadanie 2</title>
+</head>
+<body>
+    <h1>Zadanie 2</h1>
+    <p>Otwórz konsolę (F12), aby zobaczyć wynik.</p>
+    
+    <script>
+        function parzysteZPrzedzialu(a, b) {
+            let wynik = [];
+            for (let i = a; i <= b; i++) {
+                if (i % 2 === 0) {
+                    wynik.push(i);
+                }
+            }
+            console.log(wynik);
+        }
+
+        // Wywołanie funkcji
+        parzysteZPrzedzialu(2, 10);
+    </script>
+</body>
+</html>
