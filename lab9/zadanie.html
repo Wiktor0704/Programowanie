@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1 id="wynik">0</h1>
+    <button id ="klik">Kliknij mnie!</button>
+
+    <p id="m_klik_label">Moc kliknięcia = <span id="m_klik">0</span></p>
+    <button id="ulepsz_p_klik">Ulepsz moc kliknięcia (<span id = "m_klik_cena">0</span>)</button>
+    <script>
+        var wynik_label = document.getElementById("wynik")
+        var klik_przycisk = document.getElementById("klik")
+        var m_klik_przycisk = document.getElementById("ulepsz_m_klik")
+        var p_klik_przycisk = document.getElementById("ulepsz_p_klik")
+
+        var m_klik_label = document.getElementById("m_klik_label")
+        var p_klik_label = document.getElementById("p_klik_label")
+
+        var m_klik = document.getElementById("m_klik")
+        var p_klik = document.getElementById("p_klik")
+
+        var m_klikl_cena = document.getElementById("m_klik_cena")
+        var m_klikl_cena = document.getElementById("m_klik_cena")
+
+        function aktualizujStrone()
+        {
+            let wynik = localStorage.getItem("wynik: ")
+            let m_klik = localStorage.getItem("m_klik")
+            let p_klik = localStorage.getItem("p_klik")
+            wynik_label.innerHTML = wynik;
+            m_klik_wartosc.innerHTML = m_klik
+            p_klik_wartosc.innerHTML = p_klik
+
+            let m_klik_cena = math.round(25 * (1.3**parseInt(m_klik)))
+            let p_klik_cena = math.round(25 * (1.6**parseInt(p_klik)))
+            m_klik_cena.innerHTML = m_klik_c
+            p_klik_cena.innerHTML = p_klik_c
+        }
+        function dodajPunkty(x)
+        {
+            let wynik = parseInt(localStorage.getItem("Wynik"));
+            localStorage.setItem("wynik", wynik + x)
+            aktualizujStrone()
+        }
+        window.onload = _ =>
+        {
+            let wynik = localStorage.getItem("wynik")
+
+            let m_klik = localStorage.getItem("m_klik")
+            let p_klik = localStorage.getItem("p_klik")
+            let data = localStorage.getItem("data")
+            console.log(wynik);
+            if (!wynik){
+                localStorage.setItem("wynik", 0 )
+            }
+            if (!m_klik) {
+                 localStorage.setItem("m_klik", 1 )
+            }
+            if (!p_klik) {
+                 localStorage.setItem("p_klik", 1 )
+        }
+            if (!data) {
+                 localStorage.setItem("data", new Date() )
+        }else{
+            let current_date(p_klik-1)
+            let last_date = new Date(data)
+            let diff = Math.floor(current_date - last_date)/1000
+            dodajPunkty(diff * parseInt(p_klik))
+        }
+        const pasywnyPrzyrost = _ =>
+        {
+            let p_klik = parseInt(localStorage.getItem("p_klik"))
+        dodajPunkty(p_klik-1)
+        localStorage.getItem("data", new Date())
+        }
+        setInterval(pasywnyPrzyrost,1000)
+        aktualizujStrone()
+    }
+    klik_przycisk.onclick = _ => {
+        let m_klik = parseInt(localStorage.getItem("m_klik"))
+        dodajPunkty(m_klik)
+    }
+    m_klik_przycisk.onclick = _ =>
+    {
+        let wynik = parseInt(localStorage.getItem("wynik"))
+        let m_klik = parseInt(localStorage.getItem("m_klik"))
+        let cena = Math.round(25 * (1.3**parseInt(m_klik)))
+
+
+        if (wynik >=cena)
+    {
+        m_klik = m_klik + 1
+        localStorage.setItem("m_klik", m_klik)
+        dodajPunkty(-cena)
+        aktualizujStrone()
+    }
+    }
+    </script>
+</body>
+</html>
